@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Arquivo</title>
+</head>
+<body>
+    <h1>Upload de Arquivo</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file" required>
+        <button type="button" onclick="uploadFile()">Enviar</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        function uploadFile() {
+            const form = document.getElementById('uploadForm');
+            const formData = new FormData(form);
+
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').textContent = data.message;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('message').textContent = 'Erro ao enviar o arquivo.';
+            });
+        }
+    </script>
+</body>
+</html>
